@@ -7,9 +7,8 @@ public class BaseWeapon : MonoBehaviour, IWeapon {
     public Transform shootPoint;
     public float reloadTime;
     
-    [Header("UI Stuff")]
-    public TMP_Text roundBulletsLeft;
-    public TMP_Text totalAmmoLeft;
+    private TMP_Text roundBulletsLeft;
+    private TMP_Text totalAmmoLeft;
 
     public void Start(){
         MaxAmmo = 128;
@@ -20,6 +19,9 @@ public class BaseWeapon : MonoBehaviour, IWeapon {
 
         IsReloading = false;
         ReloadTime = reloadTime;
+
+        roundBulletsLeft = GameObject.FindGameObjectWithTag("BulletsLeft").GetComponent<TMP_Text>();
+        totalAmmoLeft = GameObject.FindGameObjectWithTag("TotalAmmoLeft").GetComponent<TMP_Text>();
     }
 
     #region IWeapon
@@ -62,23 +64,17 @@ public class BaseWeapon : MonoBehaviour, IWeapon {
 
     public virtual void Shoot(Vector2 shootDir){ }
 
-    public virtual IEnumerator Reload(){
+    public virtual void Reload(){
         if(CurrentAmmo == ShotsPerRound){
             Debug.Log("Already Full");
-            yield return null;
+            return;
         }
         if(Rounds <= 0){
             Debug.Log("No Ammo Left");
-            yield return null;
+            return;
         }
-
-        Debug.Log("Reloading");
-        IsReloading = true;
-        yield return new WaitForSeconds(ReloadTime);
-
         CurrentAmmo = ShotsPerRound;
         Rounds --;
-        IsReloading = false;
     }
 
     #endregion

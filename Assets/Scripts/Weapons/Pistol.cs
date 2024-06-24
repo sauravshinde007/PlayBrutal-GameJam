@@ -1,8 +1,8 @@
 
 using UnityEngine;
 
-public class Pistol : BaseWeapon
-{
+public class Pistol : BaseWeapon {
+
     public override void Shoot(Vector2 shootDir)
     {
         if(CurrentAmmo <= 0){

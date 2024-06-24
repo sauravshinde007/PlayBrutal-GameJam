@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bb751029a553f364b798f523f94ebc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lobbySceneName: Lobby
 --- !u!1 &653504953
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,7 +307,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.110708535, g: 0.110708535, b: 0.110708535, a: 0}
+  m_BackGroundColor: {r: 0.06098795, g: 0.06098795, b: 0.06098795, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -531,7 +532,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Loading
+  m_text: 'Loading...
 
 '
   m_isRightToLeft: 0
@@ -560,7 +561,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 39.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

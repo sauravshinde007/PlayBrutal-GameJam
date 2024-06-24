@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 9204066689179749246}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.706, y: 0, z: 0}
+  m_LocalPosition: {x: -1.1226666, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -214,10 +214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7058bc80b3e04214892d26675ecf3985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 6124721239500278814, guid: bc3d73b5eb47bc5be8daa577cb792780, type: 3}
+  bulletPrefab: {fileID: 6124721239500278814, guid: 00a3ff4844cf08b8f8aeb473105ee66d, type: 3}
   shootPoint: {fileID: 1056825615064347076}
   reloadTime: 1
-  roundBulletsLeft: {fileID: 0}
-  totalAmmoLeft: {fileID: 0}
   spreadAngle: 45
   bulletCount: 4

@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private int damageAmt = 10;
     [SerializeField] private float destroyTime = 4f;
     [SerializeField] private float speed = 40f;
 
@@ -24,5 +23,12 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         transform.Translate(direction * speed * Time.deltaTime);
+    }
+    
+    void OnTriggerEnter2D(Collider2D other){
+        if(other.CompareTag("Player")){
+            var hm = other.GetComponent<HealthManager>();
+            hm.Damage(damageAmt);
+        }
     }
 }

@@ -28,7 +28,7 @@ public class Shotgun : BaseWeapon
             Vector2 bulletDirection = Quaternion.Euler(0, 0, angle) * shootDir;
 
             // Instantiate the bullet at the shooter's position
-            var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity).GetComponent<Bullet>();
+            var bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity).GetComponent<Bullet>();
             bullet.SetDirection(bulletDirection);
 
         }

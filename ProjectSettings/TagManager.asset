@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Checkpoint
   - Bullet
+  - BulletsLeft
+  - TotalAmmoLeft
+  - HealthSlider
   layers:
   - Default
   - TransparentFX

@@ -15,5 +15,5 @@ public interface IWeapon {
     public bool IsReloading {get; set;}
 
     public void Shoot(Vector2 shootDir);
-    public IEnumerator Reload();
+    public void Reload();
 }
