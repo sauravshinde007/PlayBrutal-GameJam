@@ -9,6 +9,7 @@ TagManager:
   - BulletsLeft
   - TotalAmmoLeft
   - HealthSlider
+  - FuelSlider
   layers:
   - Default
   - TransparentFX

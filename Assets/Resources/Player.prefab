@@ -313,6 +313,7 @@ GameObject:
   - component: {fileID: 7327521318364483121}
   - component: {fileID: 9163950194435697784}
   - component: {fileID: 3184456884092563264}
+  - component: {fileID: 1708809516992823699}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -643,10 +644,26 @@ MonoBehaviour:
   - {x: 0.5068042, y: -1.0218468, z: 0}
   m_ShapePathHash: 1557041741
   m_Mesh: {fileID: 0}
-  m_InstanceId: 68854
+  m_InstanceId: 32216
   m_LocalBounds:
     m_Center: {x: 0.0025735497, y: -0.01362133, z: 0}
     m_Extent: {x: 0.50423074, y: 1.0082254, z: 0}
+--- !u!114 &1708809516992823699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4380980578903126427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdc2d6d28d41734188a6192d8ebf5a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverForce: 10
+  maxFuel: 5
+  fuelConsumptionRate: 1
+  fuelRestoreRate: 0.5
 --- !u!1 &9151254949970340263
 GameObject:
   m_ObjectHideFlags: 0
