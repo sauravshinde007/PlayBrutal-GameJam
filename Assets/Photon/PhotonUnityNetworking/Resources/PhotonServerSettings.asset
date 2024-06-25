@@ -41,6 +41,7 @@ MonoBehaviour:
   - RespawnSpaceship
   - SelectWeapon
   - Shoot
+  - RPC_SelectMap
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

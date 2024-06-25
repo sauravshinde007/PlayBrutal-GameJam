@@ -9,7 +9,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_InputField createInput;
     [SerializeField] private TMP_InputField joinInput;
 
-    [SerializeField] private string levelSceneName = "TestLevel";
+    [SerializeField] private string mapSelectSceneName = "MapSelect";
 
 
     public void CreateRoom(){
@@ -21,18 +21,10 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel(levelSceneName);
+        PhotonNetwork.LoadLevel(mapSelectSceneName);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+
 }
