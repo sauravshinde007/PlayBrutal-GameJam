@@ -42,6 +42,8 @@ MonoBehaviour:
   - SelectWeapon
   - Shoot
   - RPC_SelectMap
+  - Die
+  - Dest
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

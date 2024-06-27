@@ -1,35 +1,73 @@
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
 
+    private bool isDead = false;
+
     [Header("Multiplayer")]
     [SerializeField] private PhotonView view;
+    [SerializeField] private GameObject weaponHolder;
 
     [Header("Movement Controls")]
     [SerializeField] float speed = 450f;
-    [SerializeField] float jump_force = 10f;
-    [Range(0f, 1f)] [SerializeField] float stop_factor = 0.5f; // Controlled jump stopping factor
     [SerializeField] Transform feetPos; // feet position to check if grounded
     [SerializeField] Vector3 groundCheckSize = new Vector3(1, 0.05f, 1);
     [SerializeField] float gravity = 10; // gravity to apply when in air
     [SerializeField] LayerMask whatIsGround; // can only jump if on ground layer
 
-    [Header("Better Platformer")]
-    [SerializeField] private float hangTime = 0.1f;
-    private float hangTimeCtr = 0;
-    [SerializeField] private float jumpBufferLength = 0.1f;
-    private float jumpBufferCtr = 0;
-    
+    [Header("Hover Controls")]
+    [SerializeField] private float hoverForce = 50f;
+    [SerializeField] private float maxFuel = 5f;
+    [SerializeField] private float fuelConsumptionRate = 1f;
+    [SerializeField] private float fuelRestoreRate = 0.5f;
+    [SerializeField] private GameObject hoverEffect;
+
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer sr;
+    private static readonly int Idle = Animator.StringToHash("Idle");
+    private static readonly int Run = Animator.StringToHash("Run");
+    private static readonly int Hover = Animator.StringToHash("Hover");
+    private static readonly int DieAnim = Animator.StringToHash("Die");
+
+    private Slider fuelSlider;
+
     // Private variables
     private Rigidbody2D rb;
     private float movement; // movement input
     private bool isGrounded = false;
-    private bool can_jump = false;
+    private bool isHovering = false;
+
+    public float currentFuel {
+        get {
+            return _currentFuel;
+        }
+        set {
+            _currentFuel = value;
+            if (value < 0) {
+                _currentFuel = 0;
+                isHovering = false;
+            }
+            if (value > maxFuel) {
+                _currentFuel = maxFuel;
+            }
+
+            if (fuelSlider != null) fuelSlider.value = _currentFuel;
+            else fuelSlider = GameObject.FindGameObjectWithTag("FuelSlider").GetComponent<Slider>();
+        }
+    }
+    private float _currentFuel;
 
     // Start is called before the first frame update
     void Start() {
         rb = GetComponent<Rigidbody2D>();
+
+        fuelSlider = GameObject.FindGameObjectWithTag("FuelSlider").GetComponent<Slider>();
+        if (fuelSlider != null) fuelSlider.maxValue = maxFuel;
+        currentFuel = maxFuel;
+        hoverEffect.SetActive(false);
     }
 
     void GetInput(){
@@ -40,45 +78,65 @@ public class PlayerMovement : MonoBehaviour {
         // Set gravity to 0 if on ground
         rb.gravityScale = isGrounded ? 0 : gravity;
 
-        // Hang/Coyote Time
-        if(isGrounded){ hangTimeCtr = hangTime; }
-        else hangTimeCtr -= Time.deltaTime;
-
-        // Jump Buffer
-        if(Input.GetButtonDown("Jump")) { jumpBufferCtr = jumpBufferLength; }
-        else jumpBufferCtr -= Time.deltaTime;
-
-        // Jump Detection
-        if(hangTimeCtr > 0f && jumpBufferCtr > 0){
-            can_jump = true;
-            jumpBufferCtr = 0;
+        // Hovering
+        if (Input.GetButtonDown("Hover") && currentFuel > 0)
+        {
+            isHovering = true;
+            hoverEffect.SetActive(true);
         }
+        if(Input.GetButtonUp("Hover"))
+        {
+            isHovering = false;
+            hoverEffect.SetActive(false);
+        }
+    }
+
+    int ManageAnimations(){
         
-        // Controlled Jump
-        if(Input.GetButtonUp("Jump") && rb.velocity.y > 0){
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * stop_factor);
-        }
+        if(isHovering) return Hover;
+        return movement == 0 ? Idle : Run;
     }
 
     // Update is called once per frame
     void Update() {
+        if(isDead) return;
         if(!view.IsMine) return;
         GetInput();
+        var state = ManageAnimations();
+        animator.CrossFade(state, 0, 0);
+
+        // Flipping
+        if(movement < 0) sr.flipX = true;
+        if(movement > 0) sr.flipX = false;
     }
 
     void FixedUpdate(){
+        if(isDead) return;
         if(!view.IsMine) return;
         // Movement
         var vel = rb.velocity;
         // Changing the velocity directly
         vel.x = movement * speed * Time.fixedDeltaTime;
-        rb.velocity = vel;
 
-        // Jumping
-        if(can_jump){
-            rb.AddForce(Vector2.up * jump_force, ForceMode2D.Impulse);
-            can_jump = false;
+        // Hovering
+        if (isHovering)
+        {
+            rb.gravityScale = 0; // Disable gravity while hovering
+            rb.AddForce(Vector2.up * hoverForce, ForceMode2D.Force);
+            currentFuel -= fuelConsumptionRate * Time.fixedDeltaTime;
+
         }
+        else rb.gravityScale = gravity;
+        if(isGrounded)
+        {
+            // rb.gravityScale = gravity; // Restore gravity
+            if (currentFuel < maxFuel)
+            {
+                currentFuel += fuelRestoreRate * Time.fixedDeltaTime;
+            }
+        }
+
+        rb.velocity = vel;
     }
 
     // Debugging
@@ -86,5 +144,17 @@ public class PlayerMovement : MonoBehaviour {
         // Groundcheckbox
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(feetPos.position, groundCheckSize);
+    }
+
+    public void Die(){
+        // view.RPC("Dest", RpcTarget.All);
+        animator.CrossFade(DieAnim, 0, 0);
+        isDead = true;
+        Destroy(weaponHolder);
+    }
+
+    [PunRPC]
+    public void Dest(){
+        PhotonNetwork.Destroy(gameObject);
     }
 }

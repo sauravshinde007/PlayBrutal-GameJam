@@ -3,6 +3,11 @@ using TMPro;
 using UnityEngine;
 
 public class BaseWeapon : MonoBehaviour, IWeapon {
+    [Header("Pistol Settings")]
+    [SerializeField] private int maxAmmo = 128;
+    [SerializeField] private int shotsPerRound = 16;
+
+    [Header("Bullet Settings")]
     public GameObject bulletPrefab;
     public Transform shootPoint;
     public float reloadTime;
@@ -11,8 +16,8 @@ public class BaseWeapon : MonoBehaviour, IWeapon {
     private TMP_Text totalAmmoLeft;
 
     public void Start(){
-        MaxAmmo = 128;
-        ShotsPerRound = 16;
+        MaxAmmo = maxAmmo;
+        ShotsPerRound = shotsPerRound;
         Rounds = MaxAmmo / ShotsPerRound;
         BulletsShotAtATime = 1;
         CurrentAmmo = ShotsPerRound;
