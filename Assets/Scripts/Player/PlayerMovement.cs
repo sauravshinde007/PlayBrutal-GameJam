@@ -108,6 +108,10 @@ public class PlayerMovement : MonoBehaviour {
         // Flipping
         if(movement < 0) sr.flipX = true;
         if(movement > 0) sr.flipX = false;
+
+        if(Input.GetKeyDown(KeyCode.K)){
+            Die();
+        }
     }
 
     void FixedUpdate(){
