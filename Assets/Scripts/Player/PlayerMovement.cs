@@ -25,6 +25,12 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private float fuelRestoreRate = 0.5f;
     [SerializeField] private GameObject hoverEffect;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource walkAudioSource;
+    [SerializeField] private AudioSource hoverAudioSource;
+    [SerializeField] private AudioClip walkSound;
+    [SerializeField] private AudioClip hoverSound;
+
     [Header("Animations")]
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer sr;
@@ -69,6 +75,10 @@ public class PlayerMovement : MonoBehaviour {
         if (fuelSlider != null) fuelSlider.maxValue = maxFuel;
         currentFuel = maxFuel;
         hoverEffect.SetActive(false);
+
+        // Assign audio clips to audio sources
+        if (walkAudioSource != null) walkAudioSource.clip = walkSound;
+        if (hoverAudioSource != null) hoverAudioSource.clip = hoverSound;
     }
 
     void GetInput(){
@@ -84,11 +94,22 @@ public class PlayerMovement : MonoBehaviour {
         {
             isHovering = true;
             hoverEffect.SetActive(true);
+
+            if (hoverAudioSource != null && !hoverAudioSource.isPlaying)
+            {
+                hoverAudioSource.Play();
+            }
+
         }
         if(Input.GetButtonUp("Hover"))
         {
             isHovering = false;
             hoverEffect.SetActive(false);
+
+            if (hoverAudioSource != null && hoverAudioSource.isPlaying)
+            {
+                hoverAudioSource.Stop();
+            }
         }
     }
 
@@ -110,7 +131,17 @@ public class PlayerMovement : MonoBehaviour {
         if(movement < 0) sr.flipX = true;
         if(movement > 0) sr.flipX = false;
 
-        if(Input.GetKeyDown(KeyCode.K)){
+        // Play walk sound
+        if (movement != 0 && isGrounded && !walkAudioSource.isPlaying)
+        {
+            walkAudioSource.Play();
+        }
+        else if (movement == 0 || !isGrounded)
+        {
+            walkAudioSource.Stop();
+        }
+
+        if (Input.GetKeyDown(KeyCode.K)){
             Die();
         }
     }

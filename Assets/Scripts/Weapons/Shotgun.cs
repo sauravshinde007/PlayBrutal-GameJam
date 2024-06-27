@@ -7,6 +7,9 @@ public class Shotgun : BaseWeapon
     [Range(2, 20)]
     [SerializeField] private int bulletCount = 3;
 
+    [SerializeField] private AudioSource audioSource; // The AudioSource component
+    [SerializeField] private AudioClip shootSound;    // The shooting sound clip
+
     public override void Shoot(Vector2 shootDir)
     {
         if(CurrentAmmo < bulletCount){
@@ -31,6 +34,12 @@ public class Shotgun : BaseWeapon
             var bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity).GetComponent<Bullet>();
             bullet.SetDirection(bulletDirection);
 
+        }
+
+        // Play the shooting sound
+        if (audioSource != null && shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound);
         }
 
     }
