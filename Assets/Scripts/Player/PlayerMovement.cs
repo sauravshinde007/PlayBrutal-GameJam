@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using System;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -8,7 +9,7 @@ public class PlayerMovement : MonoBehaviour {
 
     [Header("Multiplayer")]
     [SerializeField] private PhotonView view;
-    [SerializeField] private GameObject weaponHolder;
+    [SerializeField] public GameObject weaponHolder;
 
     [Header("Movement Controls")]
     [SerializeField] float speed = 450f;
@@ -160,5 +161,18 @@ public class PlayerMovement : MonoBehaviour {
     [PunRPC]
     public void Dest(){
         PhotonNetwork.Destroy(gameObject);
+    }
+
+    [SerializeField] private GameObject pistolPrefab;
+    [SerializeField] private GameObject shotgunPrefab;
+
+    [PunRPC]
+    public void GetWeapon(bool pistol){
+        if(pistol) Instantiate(pistolPrefab, weaponHolder.transform.position, weaponHolder.transform.rotation, weaponHolder.transform);
+        else Instantiate(shotgunPrefab, weaponHolder.transform.position, weaponHolder.transform.rotation, weaponHolder.transform);
+    }
+
+    public void AddWeapon(bool pistol){
+        view.RPC("GetWeapon", RpcTarget.All, pistol);
     }
 }

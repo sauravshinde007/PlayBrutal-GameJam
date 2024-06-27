@@ -14,11 +14,15 @@ public class WeaponHolder : MonoBehaviour {
     void Start() {
         cam = Camera.main;
 
+        RefreshWeapons();
+    }
+
+    public void RefreshWeapons(){
+        weapons.Clear();
         for(int i = 0; i < transform.childCount; i++){
             var w = transform.GetChild(i).GetComponent<BaseWeapon>();
             if(w != null) weapons.Add(w);
         }
-
         view.RPC("SelectWeapon", RpcTarget.All, 0);
     }
 
@@ -36,6 +40,10 @@ public class WeaponHolder : MonoBehaviour {
     }
 
     void SwitchWeapon(){
+        if(weapons.Count == 0){
+            RefreshWeapons();
+            return;
+        }
         float scrollWheel = Input.GetAxisRaw("Mouse ScrollWheel");
         if(scrollWheel > 0f){
             currentWeaponIndex = (currentWeaponIndex + 1) % weapons.Count;

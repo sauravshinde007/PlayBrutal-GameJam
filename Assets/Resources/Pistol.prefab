@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Intensity: 1.26
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 0000000015054144e938cb6b310517b3
+  m_ApplyToSortingLayers: 3756658aeb3e161800000000cb69c6a09ba997e9
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -235,8 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091e0ec75efae447cb68bf41f709f67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmo: 128
-  shotsPerRound: 16
+  maxAmmo: 32
+  shotsPerRound: 8
   bulletPrefab: {fileID: 6124721239500278814, guid: 4c8865625a40dc04a8104eb765edad3c, type: 3}
   shootPoint: {fileID: 856884245139268128}
   reloadTime: 1
