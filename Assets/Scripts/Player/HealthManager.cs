@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,7 @@ public class HealthManager : MonoBehaviour {
 
     public int maxHealth = 100;
     private Slider healthSlider;
+    public PhotonView view;
 
     public int currentHealth{
         get{
@@ -15,15 +17,18 @@ public class HealthManager : MonoBehaviour {
             if(value < 0) {
                 _currentHealth = 0;
                 Debug.Log("Dead");
-                Destroy(gameObject);
+                // Send Message to Gamemanager
+                GetComponent<PlayerMovement>().Die();
             }
             if(value > maxHealth){
                 _currentHealth = maxHealth;
                 Debug.Log("Full Health");
             }
 
-            if(healthSlider != null) healthSlider.value = _currentHealth;
-            else healthSlider = GameObject.FindGameObjectWithTag("HealthSlider").GetComponent<Slider>();
+            if(view.IsMine){
+                if(healthSlider != null) healthSlider.value = _currentHealth;
+                else healthSlider = GameObject.FindGameObjectWithTag("HealthSlider").GetComponent<Slider>();
+            }
         }
     }
     private int _currentHealth;

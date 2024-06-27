@@ -41,6 +41,8 @@ MonoBehaviour:
   - RespawnSpaceship
   - SelectWeapon
   - Shoot
+  - Die
+  - Dest
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
