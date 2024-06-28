@@ -1687,7 +1687,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: e6a596d170cf412489443f42184d7bdd, type: 3}
+    m_Font: {fileID: 12800000, guid: bba1a418c1674b94aaf1380156c59fa9, type: 3}
     m_FontSize: 75
     m_FontStyle: 0
     m_BestFit: 0
@@ -1699,7 +1699,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: MINI MILTIA
+  m_Text: SWAMP MASTER
 --- !u!222 &1359681288
 CanvasRenderer:
   m_ObjectHideFlags: 0
