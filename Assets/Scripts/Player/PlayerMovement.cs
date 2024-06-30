@@ -183,10 +183,17 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public void Die(){
+
+        WinnerManager.Instance.PlayerDied(view.Owner); // Notify WinnerManager
+
+        Debug.Log("Player Died");
+
         // view.RPC("Dest", RpcTarget.All);
         animator.CrossFade(DieAnim, 0, 0);
         isDead = true;
         Destroy(weaponHolder);
+
+        
     }
 
     [PunRPC]
