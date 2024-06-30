@@ -2,7 +2,9 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Collections;
 
 public class WinnerManager : MonoBehaviourPunCallbacks
 {
@@ -10,6 +12,7 @@ public class WinnerManager : MonoBehaviourPunCallbacks
 
     private List<Player> alivePlayers = new List<Player>();
     [SerializeField] private Text winnerText; // Text component to display the winner's name
+    [SerializeField] private Text countdownText; // Text component to display the countdown
     private PhotonView photonView;
 
     private void Awake()
@@ -25,8 +28,9 @@ public class WinnerManager : MonoBehaviourPunCallbacks
             alivePlayers.Add(player);
         }
 
-        // Ensure the winner text is hidden at the start of the game
+        // Ensure the winner text and countdown text are hidden at the start of the game
         winnerText.gameObject.SetActive(false);
+        countdownText.gameObject.SetActive(false);
     }
 
     public void PlayerDied(Player player)
@@ -50,7 +54,29 @@ public class WinnerManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void ShowWinner(string winnerName)
     {
-        winnerText.text = $"Winner: {winnerName}";
+        winnerText.text = $"{winnerName} is swamp master";
         winnerText.gameObject.SetActive(true);
+        StartCoroutine(StartCountdown());
+    }
+
+    private IEnumerator StartCountdown()
+    {
+        countdownText.gameObject.SetActive(true);
+        int countdown = 5; // countdown from 5 seconds
+        while (countdown > 0)
+        {
+            countdownText.text = $"Restarting in {countdown}...";
+            yield return new WaitForSeconds(1);
+            countdown--;
+        }
+        countdownText.text = "Restarting now...";
+        yield return new WaitForSeconds(1);
+        RestartGame();
+    }
+
+    private void RestartGame()
+    {
+        // Assuming you want to reload the current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
